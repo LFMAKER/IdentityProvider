@@ -16,7 +16,7 @@ const ManageAccessController = require("./controllers/ClientControllers/ManageAc
 const UserController = require("./controllers/UserControllers/UserController");
 const PermissionsController = require("./controllers/UserControllers/PermissionsController");
 
-
+const ConnectTokenController = require("./controllers/ConnectToken/ConnectTokenController");
 
 const routes = Router();
 
@@ -30,13 +30,11 @@ routes.post("/user-auth", AuthUserController.store);
 // Desloga um usuário do sistema
 routes.post("/user-logout", verifyClient, AuthUserController.destroy);
 
-
 // Client
 // Cria o client
 routes.post("/client-create", ClientController.store);
 // Exibe informações do client logado
 routes.get("/client-details", verifyClient, ClientController.show);
-
 
 // Claim
 // Cria uma nova claim no client logado
@@ -45,16 +43,18 @@ routes.post("/claim-create", verifyClient, ClaimController.store);
 // Recupera todas claim de um client logado
 routes.get("/claim", verifyClient, ClaimController.index);
 
-//Recupera os detalhes de uma claim de um client
+// Recupera os detalhes de uma claim de um client
 routes.get("/claim-details/:id", verifyClient, ClaimController.show);
-
 
 // Manage Access
 // Cria uma nova permissão de acesso no client logado para um usuário
-routes.post("/manage-access-create", verifyClient, ManageAccessController.store);
+routes.post(
+  "/manage-access-create",
+  verifyClient,
+  ManageAccessController.store
+);
 // Recupera todas permissões cadastradas de um client logado
 routes.get("/manage-access", verifyClient, ManageAccessController.index);
-
 
 // USER
 // Cria um novo usuário no client logado
@@ -70,10 +70,12 @@ routes.get("/user-details/:id", verifyClient, UserController.show);
 // Recupera as claims de um usuário logado
 routes.get("/user-claims", verifyUser, PermissionsController.index);
 // Verifica se um usuario tem permissao para uma determinada claim
-routes.get("/user-has-permission/:id", verifyUser, PermissionsController.hasPermission);
+routes.get(
+  "/user-has-permission/:id",
+  verifyUser,
+  PermissionsController.hasPermission
+);
 
-
-
-
-
+routes.post("/connect-token", ConnectTokenController.index);
+routes.post("/auth-token", ConnectTokenController.isAuth);
 module.exports = routes;

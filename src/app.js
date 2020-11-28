@@ -7,22 +7,20 @@ const http = require("http");
 const routes = require("./routes");
 
 const { ipMiddleware } = require("./middleware/ipfilter");
+
 const app = express();
 
-app.use(ipMiddleware); //IP filter
+app.use(ipMiddleware); // IP filter
 
-mongoose.connect(
-  process.env.mongouri,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.mongouri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-const server = app.listen(process.env.PORT || 8080);
+const server = app.listen(3333);
 
 module.exports = { app, server };

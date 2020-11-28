@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: identity-provider
+  name: identity-provider-controller
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: identity-provider
+    spec:
+      containers:
+        - image: "lfmaker/identity-provider"
+          name: identity-provider
+          resources:
+            limits:
+              memory: "500Mi"
+            requests:
+              memory: "500Mi"
+          ports:
+            - containerPort: 3333
+              name: http-server
